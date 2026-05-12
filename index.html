@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>ProgettoCasaItalia</title>
+    <title>ProgettoCasaItalia 3D</title>
     <style>
         body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
         
@@ -47,4 +47,54 @@
             );
             transform: translateZ(20px);
             border: 2px solid white;
-            box-shadow: inset 0 0 15px rgba(255,255
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        /* Lo spessore grigio per fare il 3D */
+        .faccia-sotto {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #b2bec3;
+            transform: translateZ(0px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        /* Legenda */
+        .legenda { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; margin-top: 20px; }
+        .voce { display: flex; align-items: center; font-size: 14px; font-weight: bold; }
+        .quadratino { width: 12px; height: 12px; margin-right: 10px; border-radius: 2px; }
+
+        footer { margin-top: 40px; font-size: 12px; color: #999; }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h1>PROGETTO<span>CASAITALIA</span></h1>
+        <p>Dove finiscono i tuoi 100€?</p>
+
+        <div class="scena">
+            <div class="torta">
+                <div class="faccia-sopra"></div>
+                <div class="faccia-sotto"></div>
+            </div>
+        </div>
+
+        <div class="legenda">
+            <div class="voce"><div class="quadratino" style="background:#ff7675"></div> Previdenza (35%)</div>
+            <div class="voce"><div class="quadratino" style="background:#00b894"></div> Sanità (14%)</div>
+            <div class="voce"><div class="quadratino" style="background:#74b9ff"></div> Istruzione (8%)</div>
+            <div class="voce"><div class="quadratino" style="background:#a29bfe"></div> Interessi (8%)</div>
+            <div class="voce"><div class="quadratino" style="background:#fab1a0"></div> Difesa (4%)</div>
+            <div class="voce"><div class="quadratino" style="background:#dfe6e9"></div> Altro (31%)</div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 ProgettoCasaItalia | Licenza CC BY-NC-SA 4.0
+    </footer>
+
+</body>
+</html>
