@@ -1,125 +1,50 @@
 <!DOCTYPE html>
-<html lang="it">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProgettoCasaItalia - Bilancio 3D</title>
+    <title>ProgettoCasaItalia</title>
     <style>
-        /* --- STILI DI BASE --- */
-        body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
-            background: #fdfdfd; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            color: #333;
-        }
-
-        /* Navbar Glassmorphism */
-        header { 
-            width: 100%; 
-            background: rgba(255, 255, 255, 0.8); 
-            backdrop-filter: blur(10px);
-            padding: 20px 0; 
-            text-align: center; 
-            border-bottom: 1px solid #eee; 
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo { font-size: 1.4em; font-weight: 900; letter-spacing: -1px; }
-        .logo span { color: #00b894; }
-        .nav-sim { font-size: 0.8em; word-spacing: 25px; color: #777; margin-top: 12px; text-transform: uppercase; font-weight: 600; }
+        body { font-family: sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 20px; }
         
-        /* Contenitore Principale Neumorfico */
-        .main-container { 
-            max-width: 900px; 
-            width: 90%; 
-            background: #ffffff; 
-            margin: 50px auto 100px; 
-            padding: 50px; 
-            border-radius: 30px; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05); 
-            text-align: center; 
-            border: 1px solid #f0f0f0;
-        }
-        h1 { font-size: 2.8em; margin-bottom: 10px; letter-spacing: -1.5px; color: #1a1a1a; }
-        .sub { font-size: 1.2em; color: #636e72; margin-bottom: 50px; }
+        /* Contenitore Bianco */
+        .box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 800px; }
+        
+        h1 { color: #2d3436; margin-bottom: 5px; }
+        p { color: #636e72; margin-bottom: 40px; }
 
-        /* --- LA MAGIA 3D IN PURO CSS --- */
-        .chart-scene {
-            width: 380px;
-            height: 380px;
-            margin: auto;
-            perspective: 1200px; /* Crea la profondità */
-            position: relative;
+        /* LA TORTA 3D */
+        .scena {
+            perspective: 1000px;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 50px auto;
         }
 
-        .pie-3d-box {
+        .torta {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            /* Inclinazione prospettica della torta */
-            transform: rotateX(45deg) rotateZ(-15deg); 
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
+            transform: rotateX(45deg) rotateZ(-15deg);
+            transition: 0.5s;
         }
 
-        /* Rotazione al passaggio del mouse */
-        .pie-3d-box:hover {
-            transform: rotateX(35deg) rotateZ(0deg) translateY(-10px);
-        }
+        .torta:hover { transform: rotateX(35deg) rotateZ(0deg); }
 
-        /* Faccia Superiore (La "Torta" colorata) */
-        .pie-top {
+        /* Parte superiore colorata */
+        .faccia-sopra {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            /* I colori esatti e lucidi dell'immagine */
             background: conic-gradient(
-                #ff7675 0% 35.2%,    /* Previdenza (Rosso-Arancio lucido) */
-                #00b894 35.2% 49%,   /* Sanità (Verde vibrante) */
-                #74b9ff 49% 57.1%,   /* Istruzione e Ricerca (Blu) */
-                #a29bfe 57.1% 64.6%, /* Interessi (Viola) */
-                #fab1a0 64.6% 68.8%, /* Difesa (Rosa antico) */
-                #dfe6e9 68.8% 100%   /* Altro (Grigio chiaro) */
+                #ff7675 0% 35%, 
+                #00b894 35% 49%, 
+                #74b9ff 49% 57%, 
+                #a29bfe 57% 65%, 
+                #fab1a0 65% 69%, 
+                #dfe6e9 69% 100%
             );
-            /* Effetto lucido "vetro" sopra i colori */
-            background-image: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%);
-            z-index: 2;
-            transform: translateZ(15px); /* Altezza della faccia superiore */
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        /* Lo Spessore 3D (La "Cintura" laterale) */
-        .pie-side {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: #bdc3c7; /* Colore base dello spessore (più scuro del grigio 'Altro') */
-            z-index: 1;
-            /* Crea lo spessore 'spingendo' la faccia laterale in basso */
-            transform: translateZ(-15px); 
-            /* Sfumatura per lo spessore per dare volume */
-            background-image: linear-gradient(to bottom, #d6d6d6, #8e9092); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        /* --- LEGENDA PROFESSIONALE --- */
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 15px;
-            margin-top: 60px;
-            text-align: left;
-        }
-
-        .item {
-            background: #fff;
-            padding: 15px;
-            border-radius:
+            transform: translateZ(20px);
+            border: 2px solid white;
+            box-shadow: inset 0 0 15px rgba(255,255
