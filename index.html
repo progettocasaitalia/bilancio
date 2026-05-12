@@ -3,54 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProgettoCasaItalia | Dashboard 3D</title>
+    <title>ProgettoCasaItalia | Dashboard Spaziale</title>
     <style>
         :root {
-            --bg: #f8f9fa;
-            --white: #ffffff;
-            --text: #2d3436;
+            --primary: #00b894;
+            --dark-overlay: rgba(0, 0, 0, 0.6);
         }
 
         body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text); 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
             margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
+            padding: 0;
+            color: #fff;
+            /* SFONDO ITALIA DALLO SPAZIO */
+            background: linear-gradient(var(--dark-overlay), var(--dark-overlay)), 
+                        url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
         }
 
-        /* Header Professionale */
+        /* HEADER CON LOGO A SINISTRA E MENU A DESTRA */
         header {
-            width: 100%;
-            padding: 20px 0;
-            background: var(--white);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo { 
+            font-size: 1.6em; 
+            font-weight: 900; 
+            letter-spacing: -1px; 
+            color: #fff;
+            text-decoration: none;
+        }
+        .logo span { color: var(--primary); }
+
+        /* MENU A CASCATA (DROPDOWN) */
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .dropdown {
+            position: relative;
+            margin-left: 30px;
+        }
+
+        .dropdown > a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            padding: 10px 0;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .dropdown:hover > a { color: var(--primary); }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            min-width: 200px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            padding: 10px 0;
             z-index: 100;
         }
 
-        .logo { font-size: 1.5em; font-weight: 800; letter-spacing: -1px; }
-        .logo span { color: #00b894; }
-
-        .container {
-            max-width: 900px;
-            width: 90%;
-            margin: 50px auto;
-            text-align: center;
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
-        h1 { font-size: 2.5em; letter-spacing: -1px; margin-bottom: 10px; }
-        .subtitle { color: #636e72; margin-bottom: 60px; font-size: 1.1em; }
+        .dropdown-menu a {
+            color: #333;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
 
-        /* --- IL MOTORE DELLA TORTA 3D VOLUMETRICA --- */
+        .dropdown-menu a:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CONTENITORE CENTRALE */
+        .main-content {
+            max-width: 900px;
+            margin: 60px auto;
+            background: rgba(255, 255, 255, 0.1); /* Sfondo semi-trasparente */
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        h1 { font-size: 3em; margin-bottom: 10px; letter-spacing: -2px; }
+        .sub { font-size: 1.2em; color: #ccc; margin-bottom: 50px; }
+
+        /* TORTA 3D VOLUMETRICA (PERFEZIONATA) */
         .canvas-3d {
             perspective: 1200px;
-            width: 350px;
-            height: 350px;
+            width: 320px;
+            height: 320px;
             margin: 0 auto 60px auto;
         }
 
@@ -59,132 +139,67 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            transform: rotateX(50deg) rotateZ(-20deg);
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: rotateX(55deg) rotateZ(-25deg);
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.2, 1);
         }
 
-        .pie-object:hover {
-            transform: rotateX(40deg) rotateZ(0deg);
-        }
+        .pie-object:hover { transform: rotateX(45deg) rotateZ(0deg); }
 
-        /* Strati della torta per creare lo spessore (Effetto Cilindro) */
         .layer {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
             background: conic-gradient(
-                #ff7675 0% 35%, 
-                #00b894 35% 49%, 
-                #74b9ff 49% 57%, 
-                #a29bfe 57% 65%, 
-                #fab1a0 65% 69%, 
-                #dfe6e9 69% 100%
+                #ff7675 0% 35%, #00b894 35% 49%, #74b9ff 49% 57%, 
+                #a29bfe 57% 65%, #fab1a0 65% 69%, #dfe6e9 69% 100%
             );
         }
 
-        /* Creiamo 15 strati per dare volume reale (Spessore) */
-        .l1  { transform: translateZ(0px); opacity: 0.2; filter: brightness(0.5); }
-        .l2  { transform: translateZ(2px); filter: brightness(0.6); }
-        .l3  { transform: translateZ(4px); filter: brightness(0.7); }
-        .l4  { transform: translateZ(6px); filter: brightness(0.8); }
-        .l5  { transform: translateZ(8px); filter: brightness(0.85); }
-        .l6  { transform: translateZ(10px); filter: brightness(0.9); }
-        .l7  { transform: translateZ(12px); filter: brightness(0.95); }
-        
-        /* La faccia superiore "lucida" */
+        /* Creazione spessore volumetrico */
+        .l1 { transform: translateZ(0px); opacity: 0.3; }
+        .l2 { transform: translateZ(4px); filter: brightness(0.7); }
+        .l3 { transform: translateZ(8px); filter: brightness(0.8); }
+        .l4 { transform: translateZ(12px); filter: brightness(0.9); }
+
         .top-face {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            transform: translateZ(15px);
+            transform: translateZ(16px);
             background: conic-gradient(
-                #ff7675 0% 35%, 
-                #00b894 35% 49%, 
-                #74b9ff 49% 57%, 
-                #a29bfe 57% 65%, 
-                #fab1a0 65% 69%, 
-                #dfe6e9 69% 100%
+                #ff7675 0% 35%, #00b894 35% 49%, #74b9ff 49% 57%, 
+                #a29bfe 57% 65%, #fab1a0 65% 69%, #dfe6e9 69% 100%
             );
-            border: 1px solid rgba(255,255,255,0.3);
-            /* Effetto riflesso luce */
-            box-shadow: inset 0 0 40px rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.2);
         }
 
-        /* Ombra sul tavolo */
-        .shadow-floor {
-            position: absolute;
-            width: 110%;
-            height: 110%;
-            background: rgba(0,0,0,0.15);
-            border-radius: 50%;
-            filter: blur(20px);
-            transform: translateZ(-20px) translateX(-5%) translateY(-5%);
-        }
-
-        /* Legenda Moderna */
+        /* LEGENDA SPAZIALE */
         .legend-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
-            margin-top: 40px;
         }
 
         .legend-item {
-            background: white;
+            background: rgba(0, 0, 0, 0.4);
             padding: 15px;
-            border-radius: 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-            font-size: 0.9em;
-            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .dot { width: 12px; height: 12px; border-radius: 4px; margin-right: 12px; }
+        .dot { width: 12px; height: 12px; border-radius: 3px; margin-right: 12px; }
 
-        footer { margin-top: 80px; padding: 40px; font-size: 0.8em; color: #b2bec3; border-top: 1px solid #eee; width: 100%; text-align: center; }
+        footer {
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(0,0,0,0.9);
+            text-align: center;
+            font-size: 0.8em;
+            color: #888;
+        }
     </style>
-</head>
-<body>
-
-<header>
-    <div class="logo">PROGETTO<span>CASAITALIA</span></div>
-</header>
-
-<div class="container">
-    <h1>Dove finiscono i tuoi 100€?</h1>
-    <p class="subtitle">Analisi 3D della spesa pubblica italiana (Dati 2026)</p>
-
-    <div class="canvas-3d">
-        <div class="pie-object">
-            <div class="shadow-floor"></div>
-            <div class="layer l1"></div>
-            <div class="layer l2"></div>
-            <div class="layer l3"></div>
-            <div class="layer l4"></div>
-            <div class="layer l5"></div>
-            <div class="layer l6"></div>
-            <div class="layer l7"></div>
-            <div class="top-face"></div>
-        </div>
-    </div>
-
-    <div class="legend-grid">
-        <div class="legend-item"><div class="dot" style="background:#ff7675"></div> Previdenza (35%)</div>
-        <div class="legend-item"><div class="dot" style="background:#00b894"></div> Sanità (14%)</div>
-        <div class="legend-item"><div class="dot" style="background:#74b9ff"></div> Istruzione (8%)</div>
-        <div class="legend-item"><div class="dot" style="background:#a29bfe"></div> Interessi (8%)</div>
-        <div class="legend-item"><div class="dot" style="background:#fab1a0"></div> Difesa (4%)</div>
-        <div class="legend-item"><div class="dot" style="background:#dfe6e9"></div> Altro (31%)</div>
-    </div>
-</div>
-
-<footer>
-    <p>© 2026 ProgettoCasaItalia | Licenza CC BY-NC-SA 4.0</p>
-    <p>Creato dal Ragioniere Mascherato per i cittadini.</p>
-</footer>
-
-</body>
-</html>
