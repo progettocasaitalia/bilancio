@@ -2,86 +2,177 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>CASA ITALIA - Bilancio dello Stato</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgettoCasaItalia | Trasparenza Reale</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; margin: 0; display: flex; flex-direction: column; align-items: center; }
-        header { width: 100%; background: white; padding: 15px 0; text-align: center; border-bottom: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .nav-sim { font-size: 0.8em; word-spacing: 20px; color: #555; margin-top: 10px; text-transform: uppercase; }
-        
-        .container { max-width: 800px; width: 90%; background: white; margin: 40px auto; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-        h1 { font-size: 2.2em; margin-bottom: 10px; color: #2d3436; }
-        .sub { color: #636e72; margin-bottom: 30px; }
+        :root {
+            --bg: #f0f2f5;
+            --card: #ffffff;
+            --primary: #55efc4; /* Verde Sanità */
+            --text: #2d3436;
+        }
 
-        /* LA TORTA IN PURO CSS (Niente JS esterno) */
-        .pie-chart {
-            width: 350px;
-            height: 350px;
-            margin: auto;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Navbar elegante */
+        nav {
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .logo { font-weight: 800; letter-spacing: -1px; font-size: 1.4em; color: #1a1a1a; }
+        .logo span { color: #00b894; }
+
+        /* Contenitore Principale */
+        .hero {
+            max-width: 900px;
+            width: 90%;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        h1 { font-size: 2.8em; margin-bottom: 10px; letter-spacing: -1.5px; line-height: 1.1; }
+        p.subtitle { font-size: 1.2em; color: #636e72; margin-bottom: 40px; }
+
+        /* Il Grafico "Pseudo-3D" in puro CSS */
+        .chart-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            margin: 50px auto;
+            perspective: 1000px;
+        }
+
+        .pie {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             background: conic-gradient(
-                #ff7675 0% 35.2%,    /* Previdenza */
-                #55efc4 35.2% 49%,   /* Sanità */
-                #74b9ff 49% 57.1%,   /* Istruzione */
-                #a29bfe 57.1% 64.6%, /* Interessi */
-                #fab1a0 64.6% 68.8%, /* Difesa */
-                #dfe6e9 68.8% 100%   /* Altro */
+                #ff7675 0% 35%,    /* Previdenza */
+                #55efc4 35% 49%,   /* Sanità */
+                #74b9ff 49% 57%,   /* Istruzione */
+                #a29bfe 57% 65%,   /* Interessi */
+                #fab1a0 65% 69%,   /* Difesa */
+                #dfe6e9 69% 100%   /* Altro */
             );
-            border: 8px solid white;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            position: relative;
-            transition: transform 0.3s;
+            transform: rotateX(40deg) rotateZ(-10deg);
+            box-shadow: 
+                0 10px 0 #ced4da, /* Spessore 3D */
+                0 20px 40px rgba(0,0,0,0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
         }
-        
-        .pie-chart:hover { transform: scale(1.05) rotate(2deg); }
 
-        /* Legenda */
-        .legend { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 30px; gap: 15px; }
-        .item { display: flex; align-items: center; font-size: 0.9em; }
-        .dot { width: 15px; height: 15px; border-radius: 3px; margin-right: 8px; }
+        .pie:hover {
+            transform: rotateX(30deg) rotateZ(0deg) translateY(-10px);
+            box-shadow: 0 20px 0 #ced4da, 0 40px 60px rgba(0,0,0,0.3);
+        }
 
-        .btn-sanita { 
-            margin-top: 25px; 
-            padding: 12px 25px; 
-            background: #55efc4; 
-            border: none; 
-            border-radius: 30px; 
-            color: #1d3932; 
-            font-weight: bold; 
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(85, 239, 196, 0.4);
+        /* Legenda Professionale */
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .legend-item {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            display: flex;
+            align-items: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 10px;
+        }
+
+        /* CTA Button */
+        .btn {
+            background: #2d3436;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 40px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover { transform: scale(1.05); background: #000; }
+
+        footer {
+            margin-top: 100px;
+            padding: 40px;
+            width: 100%;
+            background: #fff;
+            text-align: center;
+            font-size: 0.8em;
+            color: #b2bec3;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <strong>🇮🇹 CASA ITALIA</strong>
-    <div class="nav-sim">HOME ENTRATE USCITE FAQ</div>
-</header>
+<nav>
+    <div class="logo">PROGETTO<span>CASAITALIA</span></div>
+    <div style="display: flex; gap: 20px; font-size: 0.8em; font-weight: bold; color: #636e72;">
+        <span>DASHBOARD</span>
+        <span>OPEN DATA</span>
+        <span>CONTATTI</span>
+    </div>
+</nav>
 
-<div class="container">
-    <h1>Cosa facciamo con i vostri 100€?</h1>
-    <p class="sub">Un grafico interattivo per cittadini consapevoli.</p>
+<div class="hero">
+    <h1>Dove finiscono i tuoi 100€?</h1>
+    <p class="subtitle">Analisi interattiva della spesa pubblica italiana.</p>
 
-    <div class="pie-chart" onclick="mostraDettaglio()"></div>
-
-    <div class="legend">
-        <div class="item"><div class="dot" style="background:#ff7675"></div> Previdenza (35€)</div>
-        <div class="item"><div class="dot" style="background:#55efc4"></div> Sanità (14€)</div>
-        <div class="item"><div class="dot" style="background:#74b9ff"></div> Istruzione (8€)</div>
-        <div class="item"><div class="dot" style="background:#a29bfe"></div> Interessi (8€)</div>
-        <div class="item"><div class="dot" style="background:#dfe6e9"></div> Altro (31€)</div>
+    <div class="chart-container">
+        <div class="pie" onclick="alert('Dettaglio Sanità: Caricamento dati regionali...')"></div>
     </div>
 
-    <button class="btn-sanita" onclick="mostraDettaglio()">CLICCA PER DETTAGLIO REGIONALE SANITÀ</button>
+    <div class="legend-grid">
+        <div class="legend-item"><div class="color-dot" style="background:#ff7675"></div> Previdenza (35€)</div>
+        <div class="legend-item"><div class="color-dot" style="background:#55efc4"></div> Sanità (14€)</div>
+        <div class="legend-item"><div class="color-dot" style="background:#74b9ff"></div> Istruzione (8€)</div>
+        <div class="legend-item"><div class="color-dot" style="background:#a29bfe"></div> Interessi (8€)</div>
+        <div class="legend-item"><div class="color-dot" style="background:#fab1a0"></div> Difesa (4€)</div>
+        <div class="legend-item"><div class="color-dot" style="background:#dfe6e9"></div> Altro (31€)</div>
+    </div>
+
+    <a href="#" class="btn" onclick="alert('Funzione in arrivo: Esplora la tua regione')">ANALISI REGIONALE DETTAGLIATA</a>
 </div>
 
-<script>
-    function mostraDettaglio() {
-        alert("Perfetto! Il sistema funziona.\n\nOra caricheremo il secondo grafico con i dati di:\n- Lombardia\n- Lazio\n- Campania\n- Veneto\n...");
-    }
-</script>
+<footer>
+    <p>© 2026 ProgettoCasaItalia | Il Ragioniere Mascherato</p>
+    <p>Licenza Creative Commons BY-NC-SA 4.0</p>
+</footer>
 
 </body>
 </html>
