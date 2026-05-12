@@ -76,4 +76,115 @@
             background: conic-gradient(
                 #ff7675 0% 35%, 
                 #00b894 35% 49%, 
-                #74b
+                #74b9ff 49% 57%, 
+                #a29bfe 57% 65%, 
+                #fab1a0 65% 69%, 
+                #dfe6e9 69% 100%
+            );
+        }
+
+        /* Creiamo 15 strati per dare volume reale (Spessore) */
+        .l1  { transform: translateZ(0px); opacity: 0.2; filter: brightness(0.5); }
+        .l2  { transform: translateZ(2px); filter: brightness(0.6); }
+        .l3  { transform: translateZ(4px); filter: brightness(0.7); }
+        .l4  { transform: translateZ(6px); filter: brightness(0.8); }
+        .l5  { transform: translateZ(8px); filter: brightness(0.85); }
+        .l6  { transform: translateZ(10px); filter: brightness(0.9); }
+        .l7  { transform: translateZ(12px); filter: brightness(0.95); }
+        
+        /* La faccia superiore "lucida" */
+        .top-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transform: translateZ(15px);
+            background: conic-gradient(
+                #ff7675 0% 35%, 
+                #00b894 35% 49%, 
+                #74b9ff 49% 57%, 
+                #a29bfe 57% 65%, 
+                #fab1a0 65% 69%, 
+                #dfe6e9 69% 100%
+            );
+            border: 1px solid rgba(255,255,255,0.3);
+            /* Effetto riflesso luce */
+            box-shadow: inset 0 0 40px rgba(255,255,255,0.2);
+        }
+
+        /* Ombra sul tavolo */
+        .shadow-floor {
+            position: absolute;
+            width: 110%;
+            height: 110%;
+            background: rgba(0,0,0,0.15);
+            border-radius: 50%;
+            filter: blur(20px);
+            transform: translateZ(-20px) translateX(-5%) translateY(-5%);
+        }
+
+        /* Legenda Moderna */
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .legend-item {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 4px; margin-right: 12px; }
+
+        footer { margin-top: 80px; padding: 40px; font-size: 0.8em; color: #b2bec3; border-top: 1px solid #eee; width: 100%; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">PROGETTO<span>CASAITALIA</span></div>
+</header>
+
+<div class="container">
+    <h1>Dove finiscono i tuoi 100€?</h1>
+    <p class="subtitle">Analisi 3D della spesa pubblica italiana (Dati 2026)</p>
+
+    <div class="canvas-3d">
+        <div class="pie-object">
+            <div class="shadow-floor"></div>
+            <div class="layer l1"></div>
+            <div class="layer l2"></div>
+            <div class="layer l3"></div>
+            <div class="layer l4"></div>
+            <div class="layer l5"></div>
+            <div class="layer l6"></div>
+            <div class="layer l7"></div>
+            <div class="top-face"></div>
+        </div>
+    </div>
+
+    <div class="legend-grid">
+        <div class="legend-item"><div class="dot" style="background:#ff7675"></div> Previdenza (35%)</div>
+        <div class="legend-item"><div class="dot" style="background:#00b894"></div> Sanità (14%)</div>
+        <div class="legend-item"><div class="dot" style="background:#74b9ff"></div> Istruzione (8%)</div>
+        <div class="legend-item"><div class="dot" style="background:#a29bfe"></div> Interessi (8%)</div>
+        <div class="legend-item"><div class="dot" style="background:#fab1a0"></div> Difesa (4%)</div>
+        <div class="legend-item"><div class="dot" style="background:#dfe6e9"></div> Altro (31%)</div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 ProgettoCasaItalia | Licenza CC BY-NC-SA 4.0</p>
+    <p>Creato dal Ragioniere Mascherato per i cittadini.</p>
+</footer>
+
+</body>
+</html>
