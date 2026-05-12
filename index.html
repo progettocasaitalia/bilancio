@@ -3,203 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProgettoCasaItalia | Dashboard Spaziale</title>
+    <title>ProgettoCasaItalia | Space Dashboard</title>
     <style>
         :root {
             --primary: #00b894;
-            --dark-overlay: rgba(0, 0, 0, 0.6);
+            --accent: #74b9ff;
         }
 
+        /* SFONDO OTTIMIZZATO */
         body { 
             font-family: 'Segoe UI', Roboto, sans-serif; 
             margin: 0; 
             padding: 0;
             color: #fff;
-            /* SFONDO ITALIA DALLO SPAZIO */
-            background: linear-gradient(var(--dark-overlay), var(--dark-overlay)), 
-                        url('');
+            /* SFONDO LOCALE CON OVERLAY SCURO */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('sfondo.jpg'); /* Assicurati che il nome sia identico */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* HEADER CON LOGO A SINISTRA E MENU A DESTRA */
+        /* NAVBAR CON LOGO A SINISTRA */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 50px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
+            padding: 10px 40px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            width: 100%;
+            box-sizing: border-box;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .logo { 
-            font-size: 1.6em; 
+            font-size: 1.4em; 
             font-weight: 900; 
-            letter-spacing: -1px; 
             color: #fff;
             text-decoration: none;
-        }
-        .logo span { color: var(--primary); }
-
-        /* MENU A CASCATA (DROPDOWN) */
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
             display: flex;
+            align-items: center;
         }
+        .logo span { color: var(--primary); margin-left: 5px; }
 
-        .dropdown {
-            position: relative;
-            margin-left: 30px;
-        }
-
+        /* MENU A CASCATA */
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; }
+        .dropdown { position: relative; margin-left: 25px; }
         .dropdown > a {
             color: #fff;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.9em;
+            font-size: 0.85em;
             text-transform: uppercase;
-            padding: 10px 0;
+            padding: 15px 0;
             display: block;
-            transition: 0.3s;
         }
-
-        .dropdown:hover > a { color: var(--primary); }
-
         .dropdown-menu {
             display: none;
             position: absolute;
             top: 100%;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            min-width: 200px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.98);
+            min-width: 180px;
             border-radius: 8px;
-            padding: 10px 0;
-            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
         }
-
-        .dropdown:hover .dropdown-menu {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
+        .dropdown:hover .dropdown-menu { display: block; }
         .dropdown-menu a {
             color: #333;
             padding: 12px 20px;
             text-decoration: none;
             display: block;
-            font-size: 0.85em;
-            font-weight: 500;
+            font-size: 0.8em;
+            font-weight: 600;
         }
+        .dropdown-menu a:hover { background: var(--primary); color: #fff; }
 
-        .dropdown-menu a:hover {
-            background: var(--primary);
-            color: #fff;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* CONTENITORE CENTRALE */
-        .main-content {
-            max-width: 900px;
-            margin: 60px auto;
-            background: rgba(255, 255, 255, 0.1); /* Sfondo semi-trasparente */
-            backdrop-filter: blur(15px);
-            padding: 50px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.2);
+        /* BOX CENTRALE */
+        .container {
+            max-width: 850px;
+            margin: 120px auto 60px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.15);
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
 
-        h1 { font-size: 3em; margin-bottom: 10px; letter-spacing: -2px; }
-        .sub { font-size: 1.2em; color: #ccc; margin-bottom: 50px; }
+        h1 { font-size: 2.8em; margin: 0; letter-spacing: -1.5px; }
+        .sub { color: #aaa; margin-bottom: 40px; }
 
-        /* TORTA 3D VOLUMETRICA (PERFEZIONATA) */
-        .canvas-3d {
-            perspective: 1200px;
-            width: 320px;
-            height: 320px;
-            margin: 0 auto 60px auto;
+        /* TORTA 3D VOLUMETRICA */
+        .chart-3d {
+            perspective: 1000px;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 50px;
         }
-
         .pie-object {
             position: relative;
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            transform: rotateX(55deg) rotateZ(-25deg);
-            transition: transform 0.8s cubic-bezier(0.2, 1, 0.2, 1);
+            transform: rotateX(50deg) rotateZ(-20deg);
+            transition: 0.8s;
         }
-
-        .pie-object:hover { transform: rotateX(45deg) rotateZ(0deg); }
+        .pie-object:hover { transform: rotateX(40deg) rotateZ(0deg); }
 
         .layer {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: conic-gradient(
-                #ff7675 0% 35%, #00b894 35% 49%, #74b9ff 49% 57%, 
-                #a29bfe 57% 65%, #fab1a0 65% 69%, #dfe6e9 69% 100%
-            );
+            background: conic-gradient(#ff7675 0% 35%, #00b894 35% 49%, #74b9ff 49% 57%, #a29bfe 57% 65%, #fab1a0 65% 69%, #dfe6e9 69% 100%);
         }
-
-        /* Creazione spessore volumetrico */
+        /* Spessore */
         .l1 { transform: translateZ(0px); opacity: 0.3; }
-        .l2 { transform: translateZ(4px); filter: brightness(0.7); }
-        .l3 { transform: translateZ(8px); filter: brightness(0.8); }
-        .l4 { transform: translateZ(12px); filter: brightness(0.9); }
-
-        .top-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transform: translateZ(16px);
-            background: conic-gradient(
-                #ff7675 0% 35%, #00b894 35% 49%, #74b9ff 49% 57%, 
-                #a29bfe 57% 65%, #fab1a0 65% 69%, #dfe6e9 69% 100%
-            );
-            border: 1px solid rgba(255,255,255,0.4);
-            box-shadow: inset 0 0 30px rgba(255,255,255,0.2);
+        .l2 { transform: translateZ(5px); filter: brightness(0.7); }
+        .l3 { transform: translateZ(10px); filter: brightness(0.8); }
+        .top { 
+            position: absolute; width: 100%; height: 100%; border-radius: 50%; 
+            transform: translateZ(15px); 
+            background: conic-gradient(#ff7675 0% 35%, #00b894 35% 49%, #74b9ff 49% 57%, #a29bfe 57% 65%, #fab1a0 65% 69%, #dfe6e9 69% 100%);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.2);
         }
 
-        /* LEGENDA SPAZIALE */
-        .legend-grid {
+        /* LEGENDA */
+        .legend {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
         }
-
-        .legend-item {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 15px;
-            border-radius: 12px;
+        .item {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
+            font-size: 0.8em;
             border: 1px solid rgba(255,255,255,0.1);
         }
+        .dot { width: 10px; height: 10px; border-radius: 2px; margin-right: 10px; }
 
-        .dot { width: 12px; height: 12px; border-radius: 3px; margin-right: 12px; }
-
-        footer {
-            margin-top: 50px;
-            padding: 40px;
-            background: rgba(0,0,0,0.9);
-            text-align: center;
-            font-size: 0.8em;
-            color: #888;
-        }
+        footer { padding: 40px; text-align: center; color: #666; font-size: 0.8em; }
     </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">🇮🇹 PROGETTO<span>CASAITALIA</span></a>
+    <nav>
+        <ul>
+            <li class="dropdown">
+                <a href="#">Uscite</a>
+                <div class="dropdown-menu">
+                    <a href="#">Sanità</a>
+                    <a href="#">Pensioni</a>
+                    <a href="#">Scuola</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#">Entrate</a>
+                <div class="dropdown-menu">
+                    <a href="#">Tasse Dirette</a>
+                    <a href="#">IVA</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#">Info</a>
+                <div class="dropdown-menu">
+                    <a href="#">Open Data</a>
+                    <a href="#">Contatti</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Italia: Bilancio 2026</h1>
+    <p class="sub">Analisi volumetrica della spesa pubblica su 100€</p>
+
+    <div class="chart-3d">
+        <div class="pie-object">
+            <div class="layer l1"></div>
+            <div class="layer l2"></div>
+            <div class="layer l3"></div>
+            <div class="top"></div>
+        </div>
+    </div>
+
+    <div class="legend">
+        <div class="item"><div class="dot" style="background:#ff7675"></div> Previdenza (35€)</div>
+        <div class="item"><div class="dot" style="background:#00b894"></div> Sanità (14€)</div>
+        <div class="item"><div class="dot" style="background:#74b9ff"></div> Istruzione (8€)</div>
+        <div class="item"><div class="dot" style="background:#a29bfe"></div> Interessi (8€)</div>
+        <div class="item"><div class="dot" style="background:#fab1a0"></div> Difesa (4€)</div>
+        <div class="item"><div class="dot" style="background:#dfe6e9"></div> Altro (31€)</div>
+    </div>
+</div>
+
+<footer>
+    © 2026 ProgettoCasaItalia | Licenza CC BY-NC-SA 4.0 | Analisi by Il Cavaliere Mascherato
+</footer>
+
+</body>
+</html>
